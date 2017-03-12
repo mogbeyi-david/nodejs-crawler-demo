@@ -16,6 +16,6 @@ let url = [];
 
 async.each(url, mommy_scraper.crawl, function(){
     console.log("ending process");
-    process.exit(1);
+    process.exit();
 
 });
