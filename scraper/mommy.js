@@ -1,15 +1,25 @@
-const config  = require('../config/config');
+/**
+ * Module dependencies.
+ */
+
 require('../lib/db')();
-const request = require('request');
-const chalk = require('chalk');
+
+const config      = require('../config/config');
+const request     = require('request');
+const chalk       = require('chalk');
+const xpath       = require('xpath');
+const dom         = require('xmldom').DOMParser;
+const mommy_model = require('../model/mommy');
+const async       = require('async');
 
 const BASE_CRAWL_URL = config.CRAWL_BASE_URL;
 
-const xpath   = require('xpath');
-const dom = require('xmldom').DOMParser;
-
-const mommy_model = require('../model/mommy');
-const async = require('async');
+/**
+ * Create a request to url
+ *
+ * @return {Function}
+ * @api public
+ */
 
 let mRequest = function(url, callback){
     request(url, function(error, response, html){
@@ -20,8 +30,19 @@ let mRequest = function(url, callback){
     });
 };
 
+/**
+ * Crawls the specified url
+ *
+ * @return Links to be parse
+ * @param url
+ * @param callback
+ * @public
+ *
+ */
+
 let crawl = function(url, callback){
     mRequest(url,(error , html) => {
+
         if(error) {
             console.log(chalk.red('✗') + "Error parsing "+url);
             return;
@@ -39,6 +60,15 @@ let crawl = function(url, callback){
     })
 };
 
+/**
+ * Crawls the specified url for data
+ *
+ * @return
+ * @param url
+ * @private
+ *
+ */
+
 let parse_item = function(url){
     mRequest(url,(error, html) => {
         if(error) {
@@ -55,6 +85,15 @@ let parse_item = function(url){
     });
 };
 
+/**
+ * Extract data from html document using xpath
+ *
+ * @return
+ * @param url
+ * @param doc
+ * @private
+ *
+ */
 let extract = function(url, doc){
 
     const EVENT_NAME_XPATH          = "//h1[@id='page-title']/text()";
@@ -88,6 +127,6 @@ let extract = function(url, doc){
 };
 
 module.exports = {
-    "crawl": crawl,
+    "crawl": crawl
 };
 

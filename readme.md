@@ -2,13 +2,15 @@
 -----------------
 
 This is a simple web crawler that crawls
-[link](https://mommypoppins.com/events?area%5B%5D=118&field_event_date_value%5B%5D=03-04-2017&event_end=2017-04-07). Parses through the results page. It works based on the (Scrapy)[https://scrapy.org/] crawling engine. Its uses Extruct to parse application/ld+json content of the pages to retrieve basic content and Xpath to query the
+[link](https://mommypoppins.com/events?area%5B%5D=118&field_event_date_value%5B%5D=03-04-2017&event_end=2017-04-07).
+Parses through the results page. Its uses Xpath to parse the html document.
 
 ### To start
 ------------
+
 ```sh
 
-..$ npm install
+$ npm install
 
 ````
 
